@@ -55,13 +55,20 @@ We provide pre-trained networks and sample images from the test dataset. Please 
 To generate virtual try-on images, run:
 
 ```
-CUDA_VISIBLE_DEVICES=[GPU_ID] python test.py --name [NAME]
+python test.py --name [NAME]
 ```
 
 The results are saved in the `./results/` directory. You can change the location by specifying the `--save_dir` argument. To synthesize virtual try-on images with different pairs of a person and a clothing item, edit `./datasets/test_pairs.txt` and run the same command.
 
-To run with FastAPI code:
-just run `bash run.sh`
+## FastAPI:
+just run `bash run.sh`. 
+Install Postman agent (desktop version) to send a request to your code.
+define the image URL in Body -> raw -> JSON format.
+An example of input:
+
+{
+    "url" : "https://dkstatics-public.digikala.com/digikala-products/354dc42008fc38583b730da332b709f4e9f6d92e_1626165781.jpg?x-oss-process=image/resize,m_lfit,h_600,w_600/quality,q_90"
+}
 
 ## Docker 
 
