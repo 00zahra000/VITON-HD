@@ -32,10 +32,11 @@ cd ./VITON-HD/
 Install PyTorch and other dependencies:
 
 ```
-conda create -y -n [ENV] python=3.8
-conda activate [ENV]
-conda install -y pytorch=[>=1.6.0] torchvision cudatoolkit=[>=9.2] -c pytorch
-pip install opencv-python torchgeometry
+python3.8 -m venv venv
+source venv/bin/activate
+pip install -r req.txt
+pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
+
 ```
 
 ## Dataset
@@ -58,6 +59,38 @@ CUDA_VISIBLE_DEVICES=[GPU_ID] python test.py --name [NAME]
 ```
 
 The results are saved in the `./results/` directory. You can change the location by specifying the `--save_dir` argument. To synthesize virtual try-on images with different pairs of a person and a clothing item, edit `./datasets/test_pairs.txt` and run the same command.
+
+To run with FastAPI code:
+just run `bash run.sh`
+
+## Docker 
+
+To have cuda in docker:
+https://www.server-world.info/en/note?os=Ubuntu_20.04&p=nvidia&f=2
+
+Check docker installation:
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+
+========== apt update conflict =========================
+Remember to change the setting for your ubuntu version:
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/troubleshooting.html#conflicting-signed-by
+
+cat /etc/apt/sources.list.d/nvidia-docker.list
+
+============ To run the container with cuda enabled docker ===========
+Step1 --> Build images
+```
+docker build -t your_app_name .
+```
+
+docker ps ---> for image-id
+docker run -u 0 -p 9000:9000 -it --rm --gpus all <image-id> bash
+
+
+============= Bash files ===============
+run.sh ---> to run the code locally or with docker.
+result-folder.sh ---> to create the images folder and give it permission.
+install-cuda ---> locally install cuda 11.4 and cudnn 8.3 
 
 ## License
 
